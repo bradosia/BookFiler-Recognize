@@ -1,0 +1,3 @@
+/C/github/BookFiler-Recognize/src/modules/hocrEditModule/third_party/imgui/build/CMakeFiles/rebuild_cache.dir
+/C/github/BookFiler-Recognize/src/modules/hocrEditModule/third_party/imgui/build/CMakeFiles/imgui.dir
+/C/github/BookFiler-Recognize/src/modules/hocrEditModule/third_party/imgui/build/CMakeFiles/edit_cache.dir
