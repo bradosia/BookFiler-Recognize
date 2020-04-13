@@ -11,6 +11,9 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
+// Config
+#include "../core/config.hpp"
+
 // C++
 #include <memory>
 
@@ -28,6 +31,7 @@
 
 // Local Project
 #include "ui_main.hpp"
+#include "renderWidget.hpp"
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -57,7 +61,8 @@ private:
   std::vector<std::shared_ptr<QWidget>> centralQWidgetPtrs;
   std::shared_ptr<bradosia::ModuleManager> moduleManagerPtr;
   std::shared_ptr<bradosia::SettingsManager> settingsManagerPtr;
-  std::shared_ptr<QWidget> hocrEditWidget;
+  std::shared_ptr<hocrEditModule::HocrEditWidget> hocrEditWidget;
+  std::shared_ptr<RenderWidget> renderWidget;
   std::shared_ptr<bookfiler::RecognizeModel> recognizeModel;
 };
 #endif // MAIN_WINDOW_H

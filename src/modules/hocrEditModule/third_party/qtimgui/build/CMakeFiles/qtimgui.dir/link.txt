@@ -1,2 +1,0 @@
-/mingw64/bin/ar.exe qc libqtimgui.a  CMakeFiles/qtimgui.dir/qtimgui_autogen/mocs_compilation.cpp.o CMakeFiles/qtimgui.dir/qtimgui/QtImGui.cpp.o CMakeFiles/qtimgui.dir/qtimgui/ImGuiRenderer.cpp.o
-/mingw64/bin/ranlib.exe libqtimgui.a

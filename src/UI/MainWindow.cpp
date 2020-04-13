@@ -11,14 +11,7 @@
 // C++
 #include <thread>
 
-/* QT 5.13.2-1
- * License: LGPLv3
- */
-#include <QSurfaceFormat>
-#include <QTimer>
-
 // Local Project
-#include "../core/config.hpp"
 #include "MainWindow.hpp"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
@@ -37,25 +30,33 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
    */
   modulesLoadedNum = 0;
   modulesLoadedTotalNum = 6;
-  //std::thread loadModulesThread(&MainWindow::loadModules, this);
-  //loadModulesThread.join();
+  // std::thread loadModulesThread(&MainWindow::loadModules, this);
+  // loadModulesThread.join();
   loadModules();
 
   // TODO: Thread these
   if (hocrEditModule) {
     hocrEditWidget = hocrEditModule->getWidget();
+    renderWidget = std::make_shared<RenderWidget>();
+    renderWidget->renderFunction =
+        std::bind(&hocrEditModule::HocrEditWidget::render, hocrEditWidget,
+                  std::placeholders::_1);
+    renderWidget->initGraphicsFunction =
+        std::bind(&hocrEditModule::HocrEditWidget::initGraphics,
+                  hocrEditWidget, std::placeholders::_1);
+    // renderWidget->renderFunction();
     // needed to prevent crashing on program exit
-    centralQWidgetPtrs.push_back(hocrEditWidget);
+    centralQWidgetPtrs.push_back(renderWidget);
   }
   hocrEditModuleLoaded();
   recognizeModuleLoaded();
 
   // TODO: Check if widgets need to be added on paint cycles
   if (hocrEditModule) {
-    QSizePolicy policy = hocrEditWidget->sizePolicy();
+    QSizePolicy policy = renderWidget->sizePolicy();
     policy.setHorizontalStretch(2);
-    hocrEditWidget->setSizePolicy(policy);
-    ui->horizontalSplitter->addWidget(hocrEditWidget.get());
+    renderWidget->setSizePolicy(policy);
+    ui->horizontalSplitter->addWidget(renderWidget.get());
   }
 }
 
@@ -153,10 +154,7 @@ void MainWindow::allModulesLoaded() {
           &Ui::main::selectFiles);
   connect(ui->listWidget, &QListWidget::itemDoubleClicked, ui.get(),
           &Ui::main::listItemActivated);
-  recognizeModel->imageUpdateSignal.connect(
-      std::dynamic_pointer_cast<hocrEditModule::HocrEditWidget>(hocrEditWidget)
-          ->setImageSlot);
-  recognizeModel->textUpdateSignal.connect(
-      std::dynamic_pointer_cast<hocrEditModule::HocrEditWidget>(hocrEditWidget)
-          ->textUpdateSlot);
+  recognizeModel->imageUpdateSignal.connect(hocrEditWidget->setImageSlot);
+  recognizeModel->textUpdateSignal.connect(hocrEditWidget->textUpdateSlot);
+  hocrEditWidget->updateSignal.connect(renderWidget->updateSlot);
 }

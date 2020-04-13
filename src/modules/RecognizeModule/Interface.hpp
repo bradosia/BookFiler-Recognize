@@ -48,6 +48,8 @@ public:
 class Pixmap {
 public:
   unsigned char *data;
+  // created for debugging
+  unsigned int *dataUINT;
   /* @param width pixel width
    * @param height pixel height
    * @param widthBytes The number of bytes in each scan line.
@@ -56,7 +58,9 @@ public:
   long width;
   long height;
   long widthBytes;
-  long pixelBytes;
+  long bitsPerPixel;
+  long informat;
+  long samplesPerPixel;
 };
 #endif // end BOOKFILER_PIXMAP_H
 

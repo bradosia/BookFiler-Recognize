@@ -50,9 +50,12 @@ set(SOURCES ${SOURCES}
   src/UI/main.cpp
   src/UI/Application.cpp
   src/UI/MainWindow.cpp
+  src/UI/RenderWidget.cpp
 
   src/UI/Application.hpp
   src/UI/MainWindow.hpp
+  src/UI/RenderWidget.hpp
+  src/UI/BookfilerRenderWidget.hpp
   src/UI/ui_main.hpp
   src/core/config.hpp
 )
@@ -143,3 +146,5 @@ add_custom_command(TARGET ${BIN_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/resources/settings.json" "${CMAKE_BINARY_DIR}")
 add_custom_command(TARGET ${BIN_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/resources/traineddata/" "${CMAKE_BINARY_DIR}/traineddata/")
+add_custom_command(TARGET ${BIN_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/resources/fonts/" "${CMAKE_BINARY_DIR}/fonts/")

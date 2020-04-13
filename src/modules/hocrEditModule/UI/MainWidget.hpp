@@ -16,26 +16,25 @@
 #include <iostream>
 #include <memory>
 
+// Local Project
+#include "imgui_impl_bookfilerWidget.hpp"
+
 /* Dear ImGui 1.75
  * License: MIT
  */
 #include <imgui/imgui.h>
+#include <imgui/imgui_impl_opengl3.h>
 
-/* QT 5.13.2
- * License: LGPLv3
- */
-#include <QApplication>
-#include <QOffscreenSurface>
-#include <QOpenGLExtraFunctions>
-#include <QOpenGLFramebufferObjectFormat>
-#include <QOpenGLWidget>
-#include <QSurfaceFormat>
-#include <QTimer>
-
-/* QtImGui for imgui 1.62
+/* Ogre3D 1.12.2
  * License: MIT
  */
-#include <qtimgui/QtImGui.h>
+#include <OgreFrameListener.h>
+#include <OgreRenderWindow.h>
+#include <OgreRoot.h>
+#include <OgreTextureManager.h>
+// basically does #include <GL/glew.h>
+#include <RenderSystems/GL/OgreGLRenderSystem.h>
+#include <RenderSystems/GL/OgreGLTexture.h>
 
 // Local Project
 #include "../Interface.hpp"
@@ -45,41 +44,46 @@
  */
 namespace hocrEditModule {
 
-class MainWidget : public QOpenGLWidget,
-                   private QOpenGLExtraFunctions,
-                   public HocrEditWidget {
-  Q_OBJECT
+class MainWidget : public HocrEditWidget, public Ogre::FrameListener {
 
 public:
   MainWidget();
   ~MainWidget();
+  // Interface
+  bool initGraphics(std::shared_ptr<bookfiler::WidgetData>);
+  bool render(std::shared_ptr<bookfiler::WidgetData>);
+
+  // Custom
   void setImage(std::shared_ptr<bookfiler::Pixmap> pixmap);
   void setOverlayText(
       std::shared_ptr<std::vector<std::shared_ptr<bookfiler::HocrWord>>>
           wordList);
-  void mouseMoveEvent(QMouseEvent *event) override;
-  void mousePressEvent(QMouseEvent *event) override;
-  void mouseReleaseEvent(QMouseEvent *event) override;
-  void wheelEvent(QWheelEvent *event) override;
-  void renderLoop();
-  void renderLoopSwap();
+  void setStyle1();
+  void addDrawArrow();
 
-  GLuint image_texture;
   std::shared_ptr<bookfiler::Pixmap> image_pixmap;
   std::shared_ptr<std::vector<std::shared_ptr<bookfiler::HocrWord>>>
       overlayWordList;
-  QOpenGLFramebufferObject *m_fbo;
-  QOffscreenSurface *m_backsurface;
+  ImFont *fontArialTitle;
+  ImFont *fontArialText;
+  Ogre::Root *root;
 
 protected:
-  void initializeGL() override;
-  void paintEvent(QPaintEvent *event);
+  void initializeGL();
 
 private:
   // Our state
-  bool show_demo_window = true;
-  bool show_another_window = false;
-  ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+  ImVec4 clear_color;
+  // Decide GL+GLSL versions
+#if __APPLE__
+  // GL 3.2 + GLSL 150
+  const char *glsl_version = "#version 150";
+#else
+  // GL 3.0 + GLSL 130
+  const char *glsl_version = "#version 130";
+  unsigned int textureName = 1;
+  unsigned int glID = 0;
+#endif
 };
 
 } // namespace hocrEditModule

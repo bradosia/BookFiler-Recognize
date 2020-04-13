@@ -3,15 +3,23 @@ cmake_minimum_required(VERSION 3.0)
 # The module name
 set(lib_base_name hocrEditModule)
 
+# Why Ogre?
+# Ogre used for:
+# 1. Setting up window device context
+# 2. Texture management
+# 3. openGL and graphics loading
+# Adds around ~6mb to binary size
+# No need to reinvent the wheel
+find_package(OGRE 1.10 REQUIRED)
+
 # third party
-add_subdirectory(third_party/qtimgui/)
 add_subdirectory(third_party/imgui/)
 set(INCLUDE_DIRECTORIES
-  third_party/qtimgui/include/
+  ${OGRE_INCLUDE_DIRS}
   third_party/imgui/include/
 )
 set(LINK_DIRECTORIES
-  third_party/qtimgui/lib/
+  ${OGRE_LIBRARY_DIRS}
   third_party/imgui/lib/
 )
 
@@ -19,6 +27,7 @@ set(LINK_DIRECTORIES
 set(SOURCES
   Module.cpp
   UI/MainWidget.cpp
+  UI/imgui_impl_bookfilerWidget.cpp
 )
 
 set(HEADERS
@@ -26,19 +35,26 @@ set(HEADERS
   Interface.hpp
   core/config.hpp
   UI/MainWidget.hpp
+  UI/BookfilerRenderWidget.hpp
+  UI/imgui_impl_bookfilerWidget.hpp
 )
 
 set(SHARED_COMPILE_DEFINITIONS
   -DSHARED_LIBRARY
+  #-DGLEW_STATIC
 )
 
 set(STATIC_COMPILE_DEFINITIONS
   -DSTATIC_LIBRARY
+  #-DGLEW_STATIC
 )
 
 set(LIBRARIES ${LIBRARIES}
     imgui
-    qtimgui
+    OgreMain
+    #OgreGLSupport
+    glew32
+    opengl32
 
     # QT5
     Qt5::Widgets
@@ -158,6 +174,10 @@ if(BUILD_SHARED_LIBS)
         COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/modules/")
     add_custom_command(TARGET ${lib_shared_name} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${lib_shared_name}> "${CMAKE_BINARY_DIR}/modules/")
+    add_custom_command(TARGET ${lib_shared_name} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${OGRE_CONFIG_DIR}/plugins.cfg "${CMAKE_BINARY_DIR}")
+    add_custom_command(TARGET ${lib_shared_name} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${OGRE_CONFIG_DIR}/resources.cfg "${CMAKE_BINARY_DIR}")
 endif(BUILD_SHARED_LIBS)
 
 # Installation

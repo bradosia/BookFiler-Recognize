@@ -36,11 +36,6 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-/* QT 5.13.2-1
- * License: LGPLv3
- */
-#include <QWidget>
-
 // Local Project
 #include "Interface.hpp"
 #include "UI/MainWidget.hpp"
@@ -64,14 +59,15 @@ public:
   ~ModuleExport();
 
   void init();
-  std::shared_ptr<QWidget> getWidget();
+  std::shared_ptr<HocrEditWidget> getWidget();
+  void render(std::shared_ptr<bookfiler::WidgetData>);
+  void initGraphics(std::shared_ptr<bookfiler::WidgetData>);
   void registerSettings(
       std::shared_ptr<rapidjson::Document> moduleRequest,
       std::shared_ptr<std::unordered_map<
           std::string,
           std::function<void(std::shared_ptr<rapidjson::Document>)>>>
           moduleCallbackMap);
-  void setModel(std::shared_ptr<QWidget>);
 };
 
 // Exporting `my_namespace::module` variable with alias name `module`

@@ -53,7 +53,9 @@ public:
   long width;
   long height;
   long widthBytes;
-  long pixelBytes;
+  long bitsPerPixel;
+  long informat;
+  long samplesPerPixel;
 };
 #endif // end BOOKFILER_PIXMAP_H
 

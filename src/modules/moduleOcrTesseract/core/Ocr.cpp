@@ -43,9 +43,17 @@ bool OcrInternal::openImageFile(std::string imagePath) {
   pixmap->dataUINT = image->data;
   pixmap->width = image->w;
   pixmap->height = image->h;
-  pixmap->pixelBytes = image->d / 8;
-  pixmap->widthBytes = pixmap->width * pixmap->pixelBytes;
+  pixmap->bitsPerPixel = image->d;
+  pixmap->informat = image->informat;
+  pixmap->samplesPerPixel = image->spp;
+  pixmap->widthBytes = pixmap->width * pixmap->bitsPerPixel/8;
   api->SetImage(image);
+
+  std::cout << "bookfiler::OcrInternal::openImageFile(" << imagePath
+            << ")\ninformat: " << image->informat
+            << " special: " << image->special
+            << " colormap: " << image->colormap << " spp: " << image->spp << " depth: " << image->d
+            << std::endl;
   return true;
 }
 

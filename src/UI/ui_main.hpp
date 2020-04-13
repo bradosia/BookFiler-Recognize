@@ -41,6 +41,8 @@
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
+#include <QStyleFactory>
+#include <QDebug>
 
 namespace Ui {
 
@@ -63,11 +65,11 @@ public:
 
   boost::signals2::signal<void(std::shared_ptr<std::vector<std::string>>)>
       filesSelectedSignal;
-  boost::signals2::signal<void(std::string)>
-      listItemActivatedSignal;
+  boost::signals2::signal<void(std::string)> listItemActivatedSignal;
 
   void setupUi(QMainWindow *main) {
     mainWindow = main;
+
     if (main->objectName().isEmpty())
       main->setObjectName(QString::fromUtf8("main"));
     main->resize(800, 600);
@@ -134,14 +136,16 @@ public:
   } // retranslateUi
 
   void about() {
-    QMessageBox::about(mainWindow, "About Disk Usage Viewer",
-                       "<h2>Disk Usage Viewer 1.0</h2><p>Author: Branded Lee "
-                       "</p>"
-                       "<p>Icons made by <a "
-                       "href=\"https://icons8.com\" "
-                       "title=\"ICONS8\">ICONS8</a> and <a "
-                       "href=\"https://octicons.github.com/\" "
-                       "title=\"Github\">Github</a></p>");
+    std::string message =
+        "<h2>Disk Usage Viewer 1.0</h2><p>Author: Branded Lee "
+        "</p>"
+        "<p>Icons made by <a "
+        "href=\"https://icons8.com\" "
+        "title=\"ICONS8\">ICONS8</a> and <a "
+        "href=\"https://octicons.github.com/\" "
+        "title=\"Github\">Github</a></p><p>Style: " +
+        std::string(mainWindow->style()->objectName().toStdString()) + "</p>";
+    QMessageBox::about(mainWindow, "About Disk Usage Viewer", message.c_str());
   }
 
   void selectFiles() {
@@ -184,7 +188,8 @@ public:
 
   void listItemActivated(QListWidgetItem *item) {
 #if UI_MAIN_DEBUG
-    std::cout << "Ui::main::listItemActivated Activated: " << item->text().toStdString() << "\n";
+    std::cout << "Ui::main::listItemActivated Activated: "
+              << item->text().toStdString() << "\n";
 #endif
     listItemActivatedSignal(item->text().toStdString());
   }

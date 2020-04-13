@@ -9,10 +9,15 @@
 #ifndef HOCR_EDIT_MODULE_H
 #define HOCR_EDIT_MODULE_H
 
-// c++17
+// c++11
 #include <functional>
 #include <memory>
 #include <unordered_map>
+
+/* boost 1.72.0
+ * License: Boost Software License (similar to BSD and MIT)
+ */
+#include <boost/signals2.hpp>
 
 /* rapidjson v1.1 (2016-8-25)
  * Developed by Tencent
@@ -20,11 +25,6 @@
  */
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
-
-/* QT 5.13.2
- * License: LGPLv3
- */
-#include <QWidget>
 
 #ifndef BOOKFILER_PIXMAP_H
 #define BOOKFILER_PIXMAP_H
@@ -42,7 +42,9 @@ public:
   long width;
   long height;
   long widthBytes;
-  long pixelBytes;
+  long bitsPerPixel;
+  long informat;
+  long samplesPerPixel;
 };
 } // namespace bookfiler
 #endif // end BOOKFILER_PIXMAP_H
@@ -64,6 +66,37 @@ public:
 } // namespace bookfiler
 #endif // end BOOKFILER_HOCR_WORD_H
 
+#ifndef BOOKFILER_WIDGET_DATA_H
+#define BOOKFILER_WIDGET_DATA_H
+namespace bookfiler {
+
+class WidgetData {
+public:
+  int displaySizeX, displaySizeY, displayFramebufferScale, mousePosX, mousePosY,
+      mouseWheelX, mouseWheelY;
+  double deltaTime;
+  std::string addInputCharacter;
+  bool keyCtrl, keyShift, keyAlt, keySuper, windowFocused;
+  std::unordered_map<int, bool> mouseDown;
+  std::unordered_map<int, bool> keysDown;
+  void (*setClipboardTextFn)(void *, const char *);
+  const char *(*getClipboardTextFn)(void *);
+  void *winId;
+};
+
+class WidgetMouseEvent {
+public:
+  int x, y;
+};
+
+class WidgetKeyEvent {
+public:
+  int x, y;
+};
+
+} // namespace bookfiler
+#endif // end BOOKFILER_WIDGET_DATA_H
+
 /*
  * hocrEditModule
  */
@@ -71,10 +104,18 @@ namespace hocrEditModule {
 
 class HocrEditWidget {
 public:
-  void setImage(std::shared_ptr<bookfiler::Pixmap> pixmap);
+  virtual bool initGraphics(std::shared_ptr<bookfiler::WidgetData>) = 0;
+  virtual bool render(std::shared_ptr<bookfiler::WidgetData>) = 0;
+
+  /* TODO: direct methods for IO
+   */
+
+  virtual void setImage(std::shared_ptr<bookfiler::Pixmap> pixmap) = 0;
   std::function<void(std::shared_ptr<bookfiler::Pixmap>)> setImageSlot;
-  std::function<void(std::shared_ptr<std::vector<std::shared_ptr<bookfiler::HocrWord>>>)>
+  std::function<void(
+      std::shared_ptr<std::vector<std::shared_ptr<bookfiler::HocrWord>>>)>
       textUpdateSlot;
+  boost::signals2::signal<bool()> updateSignal;
 };
 
 class ModuleInterface {
@@ -89,8 +130,9 @@ public:
       std::shared_ptr<std::unordered_map<
           std::string,
           std::function<void(std::shared_ptr<rapidjson::Document>)>>>) = 0;
-  virtual std::shared_ptr<QWidget> getWidget() = 0;
-  void setModel(std::shared_ptr<QWidget>);
+  virtual std::shared_ptr<HocrEditWidget> getWidget() = 0;
+  virtual void render(std::shared_ptr<bookfiler::WidgetData>) = 0;
+  virtual void initGraphics(std::shared_ptr<bookfiler::WidgetData>) = 0;
 };
 
 } // namespace hocrEditModule
