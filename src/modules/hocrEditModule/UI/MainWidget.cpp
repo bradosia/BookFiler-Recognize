@@ -197,9 +197,14 @@ void MainWidget::setImage(std::shared_ptr<bookfiler::Pixmap> pixmap) {
   std::cout << "hocrEditModule::MainWidget::setImage: \nwidth=" << pixmap->width
             << " height=" << pixmap->height
             << " bitsPerPixel=" << pixmap->bitsPerPixel << "\n";
+  Ogre::ushort numTextureUnits = root->getRenderSystem()->getMutableCapabilities()->getNumTextureUnits();
+  /* Ogre has no way to get maximum texture size
+   * According to:
+   * https://forums.ogre3d.org/viewtopic.php?f=2&t=48596
+   */
   GLint max_texture_size;
   glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size);
-  std::cout << "OpenGL Max Texure Size: " << max_texture_size << std::endl;
+  std::cout << "OpenGL Max Texure Size: " << max_texture_size << " ogre numTextureUnits: " << numTextureUnits << std::endl;
 #endif
   image_pixmap = pixmap;
   Ogre::Image image;
