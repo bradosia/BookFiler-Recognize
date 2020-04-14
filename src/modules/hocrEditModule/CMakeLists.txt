@@ -10,7 +10,7 @@ set(lib_base_name hocrEditModule)
 # 3. openGL and graphics loading
 # Adds around ~6mb to binary size
 # No need to reinvent the wheel
-find_package(OGRE 1.10 REQUIRED)
+find_package(OGRE 1.09 REQUIRED)
 
 # third party
 add_subdirectory(third_party/imgui/)
