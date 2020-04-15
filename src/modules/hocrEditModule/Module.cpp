@@ -31,6 +31,7 @@ void ModuleExport::init() {
 }
 
 std::shared_ptr<HocrEditWidget> ModuleExport::getWidget() {
+  std::cout << "hocrEditModule::ModuleExport::getWidget" << std::endl;
   editWidget = std::make_shared<MainWidget>();
   return editWidget;
 }
