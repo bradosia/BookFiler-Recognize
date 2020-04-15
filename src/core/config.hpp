@@ -15,5 +15,6 @@
 #define SETTINGS_FILE "settings.json"
 #define MAIN_WINDOW_DEBUG 1
 #define UI_MAIN_DEBUG 1
+#define BOOST_TEST_MODULE test
 
 #endif // APPLICATION_CONFIG_H
