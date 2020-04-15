@@ -32,6 +32,9 @@ void ModuleExport::init() {
 
 std::shared_ptr<HocrEditWidget> ModuleExport::getWidget() {
   std::cout << "hocrEditModule::ModuleExport::getWidget BEGIN" << std::endl;
+  /* Linux - Ubuntu error here:
+   * Segmentation fault (core dumped)
+   */
   editWidget = std::make_shared<MainWidget>();
   std::cout << "hocrEditModule::ModuleExport::getWidget END" << std::endl;
   return editWidget;

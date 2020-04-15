@@ -42,7 +42,7 @@
  */
 namespace hocrEditModule {
 
-class MainWidget : public HocrEditWidget, public Ogre::FrameListener {
+class MainWidget : public HocrEditWidget {
 
 public:
   MainWidget();
