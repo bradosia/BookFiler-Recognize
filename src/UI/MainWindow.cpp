@@ -80,18 +80,22 @@ void MainWindow::loadModules() {
   moduleManagerPtr->addModuleInterface<bookfiler::OcrDatabaseInterface>(
       "textRecognizeDatabaseModule");
   moduleManagerPtr->loadModules("modules");
-  std::cout << "getModule<hocrEditModule::ModuleInterface> BEGIN" << std::endl;
+  std::cout << "getModule<hocrEditModule::ModuleInterface>" << std::endl;
   hocrEditModule = moduleManagerPtr->getModule<hocrEditModule::ModuleInterface>(
       "hocrEditModule");
-  std::cout << "getModule<hocrEditModule::ModuleInterface> END" << std::endl;
+  std::cout << "getModule<bookfiler::RecognizeInterface>" << std::endl;
   recognizeModule = moduleManagerPtr->getModule<bookfiler::RecognizeInterface>(
       "bookfilerRecognizeModule");
+  std::cout << "getModule<bookfiler::Http>" << std::endl;
   httpModule =
       moduleManagerPtr->getModule<bookfiler::Http>("bookfilerHttpModule");
+  std::cout << "getModule<bookfiler::OcrInterface>" << std::endl;
   ocrModule = moduleManagerPtr->getModule<bookfiler::OcrInterface>(
       "bookfilerOcrModule");
+  std::cout << "getModule<bookfiler::PdfInterface>" << std::endl;
   pdfModule = moduleManagerPtr->getModule<bookfiler::PdfInterface>(
       "bookfilerPdfModule");
+  std::cout << "getModule<bookfiler::OcrDatabaseInterface>" << std::endl;
   recognizeDatabaseModule =
       moduleManagerPtr->getModule<bookfiler::OcrDatabaseInterface>(
           "textRecognizeDatabaseModule");
