@@ -20,11 +20,15 @@
  */
 namespace hocrEditModule {
 
-ModuleExport::ModuleExport() {}
+ModuleExport::ModuleExport() {
+  std::cout << "hocrEditModule::ModuleExport::ModuleExport()" << std::endl;
+}
 
 ModuleExport::~ModuleExport() {}
 
-void ModuleExport::init() { printf("File Tree Pane Module: init()\n"); }
+void ModuleExport::init() {
+  std::cout << "hocrEditModule::ModuleExport::init()" << std::endl;
+}
 
 std::shared_ptr<HocrEditWidget> ModuleExport::getWidget() {
   editWidget = std::make_shared<MainWidget>();
@@ -35,7 +39,8 @@ void ModuleExport::render(std::shared_ptr<bookfiler::WidgetData> widgetData) {
   editWidget->render(widgetData);
 }
 
-void ModuleExport::initGraphics(std::shared_ptr<bookfiler::WidgetData> widgetData) {
+void ModuleExport::initGraphics(
+    std::shared_ptr<bookfiler::WidgetData> widgetData) {
   editWidget->initGraphics(widgetData);
 }
 
