@@ -135,7 +135,8 @@ if(BUILD_SHARED_LIBS)
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${INCLUDE_DIRECTORIES}
   )
-  target_link_directories(${lib_shared_name} PUBLIC ${LINK_DIRECTORIES})
+  # target_link_directories does not exist
+  link_directories(${LINK_DIRECTORIES})
   set_target_properties(${lib_shared_name} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS "ON")
   write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/${lib_shared_name}Version.cmake
     VERSION ${PROJECT_VERSION}
@@ -157,7 +158,7 @@ if(BUILD_STATIC_LIBS)
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${INCLUDE_DIRECTORIES}
   )
-  target_link_directories(${lib_name} PUBLIC ${LINK_DIRECTORIES})
+  link_directories(${LINK_DIRECTORIES})
   write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/${lib_name}Version.cmake
     VERSION ${PROJECT_VERSION}
   COMPATIBILITY AnyNewerVersion )
