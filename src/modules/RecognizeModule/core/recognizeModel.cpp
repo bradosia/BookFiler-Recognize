@@ -190,8 +190,14 @@ void RecognizeModelInternal::toBankStatementTable(
                        boost::is_any_of(";"));
           for (std::string property : attributeProperties) {
             std::vector<std::string> propertyParts;
-            boost::split(propertyParts, boost::algorithm::trim_copy(property),
-                         boost::is_any_of(" "));
+            /* Linux - Ubuntu
+             * error: cannot bind non-const lvalue reference of
+             * type ‘std::__cxx11::basic_string<char>&’ to an rvalue of type
+             * ‘std::__cxx11::basic_string<char>’ Fix: first assign to temporary
+             * string propertyTrim
+             */
+            std::string propertyTrim = boost::algorithm::trim_copy(property);
+            boost::split(propertyParts, propertyTrim, boost::is_any_of(" "));
             /* Get Attributes
              */
             try {
