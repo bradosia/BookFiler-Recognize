@@ -52,9 +52,6 @@ set(STATIC_COMPILE_DEFINITIONS
 set(LIBRARIES ${LIBRARIES}
     imgui
     OgreMain
-    #OgreGLSupport
-    glew32
-    opengl32
 
     # QT5
     Qt5::Widgets
@@ -62,6 +59,10 @@ set(LIBRARIES ${LIBRARIES}
 
 if(WIN32)
     set(LIBRARIES ${LIBRARIES}
+        #OgreGLSupport
+        glew32
+        opengl32
+
         # Windows Libraries
         z
         stdc++
@@ -69,7 +70,6 @@ if(WIN32)
         uuid
 
         windowscodecs
-        opengl32
         gdi32
         comdlg32
         oleaut32
@@ -87,6 +87,10 @@ if(WIN32)
     )
 elseif(UNIX)
     set(LIBRARIES ${LIBRARIES}
+        #OgreGLSupport
+        GLEW
+        GL
+
         # Unix Libraries
         z
         stdc++
