@@ -17,6 +17,7 @@
 namespace hocrEditModule {
 
 MainWidget::MainWidget() {
+  std::cout << "MainWidget::MainWidget()" << std::endl;
   setImageSlot = std::bind(&hocrEditModule::MainWidget::setImage, this,
                            std::placeholders::_1);
   textUpdateSlot = std::bind(&hocrEditModule::MainWidget::setOverlayText, this,
@@ -31,10 +32,10 @@ MainWidget::~MainWidget() {
 
 bool MainWidget::initGraphics(
     std::shared_ptr<bookfiler::WidgetData> widgetData) {
+  std::cout << "MainWidget::initGraphics" << std::endl;
   // Ogre Initialize
   root =
       new Ogre::Root(Ogre::BLANKSTRING, Ogre::BLANKSTRING, Ogre::BLANKSTRING);
-
 #if defined(OGRE_STATIC)
   root->installPlugin(new Ogre::GLPlugin);
   // root->installPlugin(new Ogre::GL3PlusPlugin);
@@ -89,8 +90,8 @@ bool MainWidget::initGraphics(
   params["externalWindowHandle"] =
       Ogre::StringConverter::toString((size_t)(widgetData->winId));
 #else
-/* For __linux__ is this enough?
- */
+  /* For __linux__ is this enough?
+   */
   params["externalWindowHandle"] =
       Ogre::StringConverter::toString((size_t)(widgetData->winId));
 #endif
@@ -172,14 +173,16 @@ void MainWidget::setImage(std::shared_ptr<bookfiler::Pixmap> pixmap) {
   std::cout << "hocrEditModule::MainWidget::setImage: \nwidth=" << pixmap->width
             << " height=" << pixmap->height
             << " bitsPerPixel=" << pixmap->bitsPerPixel << "\n";
-  Ogre::ushort numTextureUnits = root->getRenderSystem()->getMutableCapabilities()->getNumTextureUnits();
+  Ogre::ushort numTextureUnits =
+      root->getRenderSystem()->getMutableCapabilities()->getNumTextureUnits();
   /* Ogre has no way to get maximum texture size
    * According to:
    * https://forums.ogre3d.org/viewtopic.php?f=2&t=48596
    */
   GLint max_texture_size;
   glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size);
-  std::cout << "OpenGL Max Texure Size: " << max_texture_size << " ogre numTextureUnits: " << numTextureUnits << std::endl;
+  std::cout << "OpenGL Max Texure Size: " << max_texture_size
+            << " ogre numTextureUnits: " << numTextureUnits << std::endl;
 #endif
   image_pixmap = pixmap;
   Ogre::Image image;
@@ -200,13 +203,13 @@ void MainWidget::setImage(std::shared_ptr<bookfiler::Pixmap> pixmap) {
     // JPG
     std::cout << "JPG LOADED" << std::endl;
     image.loadDynamicImage(pixmap->data, (unsigned int)pixmap->width,
-                           (unsigned int)pixmap->height, 3, Ogre::PF_X8R8G8B8  );
+                           (unsigned int)pixmap->height, 3, Ogre::PF_X8R8G8B8);
     image.save("Ogre_PF_X8R8G8B8.png");
   } else if (pixmap->informat == 3 && pixmap->bitsPerPixel == 32) {
     // PNG
     std::cout << "PNG LOADED" << std::endl;
     image.loadDynamicImage(pixmap->data, (unsigned int)pixmap->width,
-                           (unsigned int)pixmap->height, 1, Ogre::PF_A8R8G8B8 );
+                           (unsigned int)pixmap->height, 1, Ogre::PF_A8R8G8B8);
     image.save("Ogre_PF_R8G8B8A8.png");
   } else {
 #if HOCR_EDIT_MODULE_SET_IMAGE_DEBUG
