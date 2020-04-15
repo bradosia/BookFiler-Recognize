@@ -25,7 +25,6 @@
 /* Ogre3D 1.12.2
  * License: MIT
  */
-#include <OgreFrameListener.h>
 #include <OgreRenderWindow.h>
 #include <OgreRoot.h>
 #include <OgreTextureManager.h>
