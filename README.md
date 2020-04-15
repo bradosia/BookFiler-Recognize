@@ -21,3 +21,8 @@ sudo apt-get install libxaw7-dev
 sudo apt-get install libglew-dev
 sudo apt-get install libtesseract-dev libleptonica-dev liblept5
 ```
+
+modules/libhocrEditModuleLibShared.so.1.0.0 exception fix:
+```shell
+sudo cp /usr/lib/x86_64-linux-gnu/libzzip-0.so.13.0.62 /usr/lib/x86_64-linux-gnu/libzzip.so.13
+```
