@@ -42,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
         std::bind(&hocrEditModule::HocrEditWidget::render, hocrEditWidget,
                   std::placeholders::_1);
     renderWidget->initGraphicsFunction =
-        std::bind(&hocrEditModule::HocrEditWidget::initGraphics,
-                  hocrEditWidget, std::placeholders::_1);
+        std::bind(&hocrEditModule::HocrEditWidget::initGraphics, hocrEditWidget,
+                  std::placeholders::_1);
     // renderWidget->renderFunction();
     // needed to prevent crashing on program exit
     centralQWidgetPtrs.push_back(renderWidget);
@@ -80,8 +80,10 @@ void MainWindow::loadModules() {
   moduleManagerPtr->addModuleInterface<bookfiler::OcrDatabaseInterface>(
       "textRecognizeDatabaseModule");
   moduleManagerPtr->loadModules("modules");
+  std::cout << "getModule<hocrEditModule::ModuleInterface> BEGIN" << std::endl;
   hocrEditModule = moduleManagerPtr->getModule<hocrEditModule::ModuleInterface>(
       "hocrEditModule");
+  std::cout << "getModule<hocrEditModule::ModuleInterface> END" << std::endl;
   recognizeModule = moduleManagerPtr->getModule<bookfiler::RecognizeInterface>(
       "bookfilerRecognizeModule");
   httpModule =
@@ -97,7 +99,7 @@ void MainWindow::loadModules() {
 
 void MainWindow::hocrEditModuleLoaded() {
   if (hocrEditModule) {
-    printf("FileTreePane Module Found\n");
+    std::cout << "MainWindow::hocrEditModuleLoaded()" << std::endl;
     /* register widgets
      */
     hocrEditModule->init();

@@ -138,6 +138,8 @@ elseif(APPLE)
     MACOSX_BUNDLE TRUE
     RESOURCE "${RESOURCES}"
   )
+elseif(UNIX)
+  set_property(TARGET ${BIN_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
 
 # Post Build
