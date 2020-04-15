@@ -31,7 +31,7 @@
 
 // Local Project
 #include "ui_main.hpp"
-#include "renderWidget.hpp"
+#include "RenderWidget.hpp"
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
