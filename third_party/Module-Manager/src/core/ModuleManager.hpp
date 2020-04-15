@@ -52,11 +52,14 @@ public:
     try {
       module = boost::dll::import<T>(lib_path, moduleName,
                                      boost::dll::load_mode::default_mode);
+    } catch (boost::system::system_error e) {
+      std::cout << "addPath(" << lib_path << ") EXCEPTION: " << e.what()
+                << "\n";
     } catch (...) {
-      std::cout << "PLUGIN: Loading FAILED " << lib_path << "\n";
+      std::cout << "addPath(" << lib_path << ") EXCEPTION\n";
     }
     if (module) {
-      std::cout << "PLUGIN: Loading SUCCESS " << lib_path << "\n";
+      std::cout << "addPath(" << lib_path << ") SUCCESS\n";
       modulePtrs.push_back(module);
     }
   }
