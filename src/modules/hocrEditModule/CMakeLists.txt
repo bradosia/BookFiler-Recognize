@@ -105,6 +105,15 @@ elseif(UNIX)
     )
 endif()
 
+set(LIBRARIES ${LIBRARIES}
+    imgui
+    OgreMain
+
+    # QT5
+    Qt5::Widgets
+)
+
+
 set(SHARED_LINK_LIBRARIES ${LIBRARIES})
 set(STATIC_LINK_LIBRARIES ${LIBRARIES})
 
@@ -141,7 +150,10 @@ if(BUILD_SHARED_LIBS)
   )
   # target_link_directories does not exist
   link_directories(${LINK_DIRECTORIES})
-  set_target_properties(${lib_shared_name} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS "ON")
+  set_property(TARGET ${lib_shared_name} PROPERTY WINDOWS_EXPORT_ALL_SYMBOLS "ON")
+  if(UNIX)
+  set_property(TARGET ${lib_shared_name} PROPERTY POSITION_INDEPENDENT_CODE ON)
+  endif()
   write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/${lib_shared_name}Version.cmake
     VERSION ${PROJECT_VERSION}
   COMPATIBILITY AnyNewerVersion )
