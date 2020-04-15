@@ -89,35 +89,10 @@ bool MainWidget::initGraphics(
   params["externalWindowHandle"] =
       Ogre::StringConverter::toString((size_t)(widgetData->winId));
 #else
-#if QT_VERSION < 0x050000
-  const QX11Info info = this->x11Info();
-  Ogre::String winHandle;
-  winHandle = Ogre::StringConverter::toString((unsigned long)(info.display()));
-  winHandle += ":";
-  winHandle += Ogre::StringConverter::toString((unsigned int)(info.screen()));
-  winHandle += ":";
-  winHandle += Ogre::StringConverter::toString(widgetData->winId);
-  winHandle += ":";
-  winHandle += Ogre::StringConverter::toString((unsigned long)(info.visual()));
-
-  params["externalWindowHandle"] = winHandle;
-
-#elif QT_VERSION >= 0x050100 && defined(Q_WS_X11)
-  const QX11Info info = this->x11Info();
-  Ogre::String winHandle;
-  winHandle = Ogre::StringConverter::toString((unsigned long)(info.display()));
-  winHandle += ":";
-  winHandle +=
-      Ogre::StringConverter::toString((unsigned int)(info.appScreen()));
-  winHandle += ":";
-  winHandle += Ogre::StringConverter::toString((unsigned long)(this->winId()));
-
-  params["externalWindowHandle"] = winHandle;
-#else // only for the time between Qt 5.0 and Qt 5.1 when QX11Info was not
-      // included
+/* For __linux__ is this enough?
+ */
   params["externalWindowHandle"] =
-      Ogre::StringConverter::toString((unsigned long)(this->winId()));
-#endif
+      Ogre::StringConverter::toString((size_t)(widgetData->winId));
 #endif
 
 #if defined(__APPLE__)

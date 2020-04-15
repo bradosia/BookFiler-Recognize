@@ -16,8 +16,7 @@
 #include <iostream>
 #include <memory>
 
-// Local Project
-#include "imgui_impl_bookfilerWidget.hpp"
+#include <QX11Info>
 
 /* Dear ImGui 1.75
  * License: MIT
@@ -37,6 +36,7 @@
 #include <RenderSystems/GL/OgreGLTexture.h>
 
 // Local Project
+#include "imgui_impl_bookfilerWidget.hpp"
 #include "../Interface.hpp"
 
 /*
