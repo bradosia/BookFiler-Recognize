@@ -139,7 +139,7 @@ elseif(APPLE)
     RESOURCE "${RESOURCES}"
   )
 elseif(UNIX)
-  set_property(TARGET ${BIN_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
+  #set_property(TARGET ${BIN_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
 
 # Post Build
