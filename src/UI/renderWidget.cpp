@@ -9,7 +9,7 @@
  */
 
 // Local Project
-#include "renderWidget.hpp"
+#include "RenderWidget.hpp"
 
 RenderWidget::RenderWidget(QWidget *parent) : QOpenGLWidget(parent) {
   renderStart = std::chrono::steady_clock::now();
