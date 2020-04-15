@@ -30,6 +30,12 @@ set(STATIC_COMPILE_DEFINITIONS
 
 add_library(${lib_static_name} STATIC ${SOURCES})
 
+if(UNIX)
+    # Error:
+    # relocation R_X86_64_PC32 against symbol `_ZN6ImVec2C1Eff' can not be used when making a shared object; recompile with -fPIC
+    set_property(TARGET ${lib_static_name} PROPERTY POSITION_INDEPENDENT_CODE ON)
+endif()
+
 # Compile Definitions
 target_compile_definitions(${lib_static_name} PUBLIC ${STATIC_COMPILE_DEFINITIONS})
 

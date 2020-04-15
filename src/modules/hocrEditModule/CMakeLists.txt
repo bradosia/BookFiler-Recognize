@@ -113,7 +113,6 @@ set(LIBRARIES ${LIBRARIES}
     Qt5::Widgets
 )
 
-add_compile_options(-fPIC)
 set(SHARED_LINK_LIBRARIES ${LIBRARIES})
 set(STATIC_LINK_LIBRARIES ${LIBRARIES})
 
@@ -152,7 +151,6 @@ if(BUILD_SHARED_LIBS)
   link_directories(${LINK_DIRECTORIES})
   set_property(TARGET ${lib_shared_name} PROPERTY WINDOWS_EXPORT_ALL_SYMBOLS "ON")
   if(UNIX)
-      target_compile_options(${lib_shared_name} PRIVATE -fPIC)
       set_property(TARGET ${lib_shared_name} PROPERTY POSITION_INDEPENDENT_CODE ON)
   endif()
   write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/${lib_shared_name}Version.cmake
