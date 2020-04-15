@@ -36,7 +36,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
   // TODO: Thread these
   if (hocrEditModule) {
+    std::cout << "hocrEditModule->getWidget()" << std::endl;
     hocrEditWidget = hocrEditModule->getWidget();
+    std::cout << "std::make_shared<RenderWidget>()" << std::endl;
     renderWidget = std::make_shared<RenderWidget>();
     renderWidget->renderFunction =
         std::bind(&hocrEditModule::HocrEditWidget::render, hocrEditWidget,
@@ -62,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 void MainWindow::loadModules() {
 #if MAIN_WINDOW_DEBUG
-  std::cout << "MainWindow::loadModules() begin.\n";
+  std::cout << "MainWindow::loadModules() BEGIN\n";
 #endif
   settingsManagerPtr = std::make_shared<bradosia::SettingsManager>();
   /* Module Load
@@ -99,6 +101,9 @@ void MainWindow::loadModules() {
   recognizeDatabaseModule =
       moduleManagerPtr->getModule<bookfiler::OcrDatabaseInterface>(
           "textRecognizeDatabaseModule");
+#if MAIN_WINDOW_DEBUG
+  std::cout << "MainWindow::loadModules() END\n";
+#endif
 }
 
 void MainWindow::hocrEditModuleLoaded() {
