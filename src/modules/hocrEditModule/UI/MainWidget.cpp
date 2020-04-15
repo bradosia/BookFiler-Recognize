@@ -17,7 +17,7 @@
 namespace hocrEditModule {
 
 MainWidget::MainWidget() {
-  std::cout << "MainWidget::MainWidget()" << std::endl;
+  std::cout << "hocrEditModule::MainWidget::MainWidget()" << std::endl;
   setImageSlot = std::bind(&hocrEditModule::MainWidget::setImage, this,
                            std::placeholders::_1);
   textUpdateSlot = std::bind(&hocrEditModule::MainWidget::setOverlayText, this,
