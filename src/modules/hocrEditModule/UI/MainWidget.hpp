@@ -16,8 +16,6 @@
 #include <iostream>
 #include <memory>
 
-#include <QX11Info>
-
 /* Dear ImGui 1.75
  * License: MIT
  */
