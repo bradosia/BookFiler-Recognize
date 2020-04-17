@@ -35,37 +35,37 @@ include(ExternalProject)
 # INSTALL_DIR  = <prefix>
 # LOG_DIR      = <STAMP_DIR>
 
-ExternalProject_Add(BookFiler-Module-HocrEditor
+ExternalProject_Add(BookFiler-Module-Hocr-Editor
   GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-HocrEditor.git"
   PREFIX ${CMAKE_BINARY_DIR}
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
 )
 
-ExternalProject_Add(BookFiler-Module-HocrEditor
+ExternalProject_Add(BookFiler-Module-HTTP-beast
   GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-HTTP-beast.git"
   PREFIX ${CMAKE_BINARY_DIR}
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
 )
 
-ExternalProject_Add(BookFiler-Module-HocrEditor
+ExternalProject_Add(BookFiler-Module-OCR-Tesseract
   GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-OCR-Tesseract.git"
   PREFIX ${CMAKE_BINARY_DIR}
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
 )
 
-ExternalProject_Add(BookFiler-Module-HocrEditor
+ExternalProject_Add(BookFiler-Module-PDF-PoDoFo
   GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-PDF-PoDoFo.git"
   PREFIX ${CMAKE_BINARY_DIR}
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
 )
 
-ExternalProject_Add(BookFiler-Module-HocrEditor
+ExternalProject_Add(BookFiler-Module-Recognize
   GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-Recognize.git"
   PREFIX ${CMAKE_BINARY_DIR}
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
 )
 
-ExternalProject_Add(BookFiler-Module-HocrEditor
+ExternalProject_Add(BookFiler-Module-Recognize-Database
   GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-Recognize-Database.git"
   PREFIX ${CMAKE_BINARY_DIR}
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}

@@ -53,20 +53,24 @@ set(SOURCES ${SOURCES}
   src/UI/Application.cpp
   src/UI/MainWindow.cpp
   src/UI/RenderWidget.cpp
+)
 
+set(HEADERS ${HEADERS}
   src/UI/Application.hpp
   src/UI/MainWindow.hpp
   src/UI/RenderWidget.hpp
   src/UI/BookfilerRenderWidget.hpp
   src/UI/ui_main.hpp
   src/core/config.hpp
+
+  src/interfaces/
 )
 
 set(RESOURCES ${RESOURCES}
   resources/icons_file.qrc
 )
 
-add_executable(${application_name} ${SOURCES} ${RESOURCES})
+add_executable(${application_name} ${SOURCES} ${HEADERS} ${RESOURCES})
 
 set(LIBRARIES ${LIBRARIES}
   # QT5

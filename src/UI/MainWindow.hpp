@@ -22,12 +22,12 @@
 #include <SettingsManager/SettingsManager.hpp>
 
 // Modules
-#include <hocrEditModule/Interface.hpp>
-#include <RecognizeModule/Interface.hpp>
-#include <moduleHttpBeast/Interface.hpp>
-#include <moduleOcrTesseract/Interface.hpp>
-#include <modulePdfMupdf/Interface.hpp>
-#include <TextRecognizeDatabase/Interface.hpp>
+#include <BookFiler-Module-Hocr-Editor/Interface.hpp>
+#include <BookFiler-Module-HTTP-beast/Interface.hpp>
+#include <BookFiler-Module-OCR-Tesseract/Interface.hpp>
+#include <BookFiler-Module-PDF-PoDoFo/Interface.hpp>
+#include <BookFiler-Module-Recognize/Interface.hpp>
+#include <BookFiler-Module-Recognize-Database/Interface.hpp>
 
 // Local Project
 #include "ui_main.hpp"
