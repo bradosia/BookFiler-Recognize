@@ -20,14 +20,53 @@ message( STATUS "Environment:" )
 message( STATUS "CMAKE_INSTALL_BINDIR:       ${CMAKE_INSTALL_BINDIR}" )
 message( STATUS "CMAKE_CURRENT_BINARY_DIR:   ${CMAKE_CURRENT_BINARY_DIR}" )
 message( STATUS "CMAKE_BINARY_DIR:           ${CMAKE_BINARY_DIR}" )
+message( STATUS "RELEASE_DIR:                ${RELEASE_DIR}" )
 message( STATUS "=============================================================================" )
 message( STATUS )
 
-include_directories(.)
+include(ExternalProject)
 
-add_subdirectory(hocrEditModule)
-add_subdirectory(moduleHttpBeast)
-add_subdirectory(moduleOcrTesseract)
-add_subdirectory(modulePdfMupdf)
-add_subdirectory(RecognizeModule)
-add_subdirectory(TextRecognizeDatabase)
+# ExternalProject_Add Arguments:
+# TMP_DIR      = <prefix>/tmp
+# STAMP_DIR    = <prefix>/src/<name>-stamp
+# DOWNLOAD_DIR = <prefix>/src
+# SOURCE_DIR   = <prefix>/src/<name>
+# BINARY_DIR   = <prefix>/src/<name>-build
+# INSTALL_DIR  = <prefix>
+# LOG_DIR      = <STAMP_DIR>
+
+ExternalProject_Add(BookFiler-Module-HocrEditor
+  GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-HocrEditor.git"
+  PREFIX ${CMAKE_BINARY_DIR}
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
+)
+
+ExternalProject_Add(BookFiler-Module-HocrEditor
+  GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-HTTP-beast.git"
+  PREFIX ${CMAKE_BINARY_DIR}
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
+)
+
+ExternalProject_Add(BookFiler-Module-HocrEditor
+  GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-OCR-Tesseract.git"
+  PREFIX ${CMAKE_BINARY_DIR}
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
+)
+
+ExternalProject_Add(BookFiler-Module-HocrEditor
+  GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-PDF-PoDoFo.git"
+  PREFIX ${CMAKE_BINARY_DIR}
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
+)
+
+ExternalProject_Add(BookFiler-Module-HocrEditor
+  GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-Recognize.git"
+  PREFIX ${CMAKE_BINARY_DIR}
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
+)
+
+ExternalProject_Add(BookFiler-Module-HocrEditor
+  GIT_REPOSITORY "https://github.com/bradosia/BookFiler-Module-Recognize-Database.git"
+  PREFIX ${CMAKE_BINARY_DIR}
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DPARENT_RELEASE_DIR=${RELEASE_DIR}
+)

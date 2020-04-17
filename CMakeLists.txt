@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(BookFiler-Recognize VERSION 1.0.0 LANGUAGES CXX)
-set(BIN_NAME BookFiler-Recognize)
+set(application_name BookFiler-Recognize)
+project(${application_name} VERSION 1.0.0 LANGUAGES CXX)
+set(RELEASE_DIR "${CMAKE_BINARY_DIR}/${application_name}/")
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RELEASE_DIR})
 
 # Configurable Options
 OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON)
@@ -64,7 +66,7 @@ set(RESOURCES ${RESOURCES}
   resources/icons_file.qrc
 )
 
-add_executable(${BIN_NAME} ${SOURCES} ${RESOURCES})
+add_executable(${application_name} ${SOURCES} ${RESOURCES})
 
 set(LIBRARIES ${LIBRARIES}
   # QT5
@@ -87,8 +89,6 @@ if(WIN32)
         gcc
         uuid
 
-        windowscodecs
-        opengl32
         gdi32
         comdlg32
         oleaut32
@@ -120,33 +120,45 @@ elseif(UNIX)
     )
 endif()
 
-target_link_libraries(${BIN_NAME} PRIVATE ${LIBRARIES})
+target_link_libraries(${application_name} PRIVATE ${LIBRARIES})
 
 # OS-Architecture specific libraries
 if(APPLE)
   find_library(COCOA_FRAMEWORK Cocoa)
-  target_link_libraries(${BIN_NAME} ${COCOA_FRAMEWORK})
+  target_link_libraries(${application_name} ${COCOA_FRAMEWORK})
 endif()
 
 # OS-Architecture specific properties
 if(WIN32)
-  set_target_properties(${BIN_NAME} PROPERTIES
+  set_target_properties(${application_name} PROPERTIES
     WIN32 TRUE
   )
 elseif(APPLE)
-  set_target_properties(${BIN_NAME} PROPERTIES
+  set_target_properties(${application_name} PROPERTIES
     MACOSX_BUNDLE TRUE
     RESOURCE "${RESOURCES}"
   )
 elseif(UNIX)
-  #set_property(TARGET ${BIN_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
+  #set_property(TARGET ${application_name} PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
 
+# Pre Build
+# Make a release directory without all the cmake extras.
+# This directory can easily be archived and distributed.
+add_custom_command(TARGET ${application_name} PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/${application_name}/")
+# Create release sub-folders
+add_custom_command(TARGET ${application_name} PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${RELEASE_DIR}/traineddata/")
+add_custom_command(TARGET ${application_name} PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${RELEASE_DIR}/fonts/")
+add_custom_command(TARGET ${application_name} PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${RELEASE_DIR}/modules/")
 # Post Build
 # Copy default setttings
-add_custom_command(TARGET ${BIN_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/resources/settings.json" "${CMAKE_BINARY_DIR}")
-add_custom_command(TARGET ${BIN_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/resources/traineddata/" "${CMAKE_BINARY_DIR}/traineddata/")
-add_custom_command(TARGET ${BIN_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/resources/fonts/" "${CMAKE_BINARY_DIR}/fonts/")
+add_custom_command(TARGET ${application_name} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/resources/settings.json" "${RELEASE_DIR}")
+add_custom_command(TARGET ${application_name} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/resources/traineddata/" "${RELEASE_DIR}/traineddata/")
+add_custom_command(TARGET ${application_name} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/resources/fonts/" "${RELEASE_DIR}/fonts/")
